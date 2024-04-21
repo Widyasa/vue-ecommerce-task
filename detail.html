@@ -5,141 +5,225 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Page</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-    <section class="container mt-5" id="detail-section">
-        <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#cartModal" @click="countTotalPrice">Cart {{ cart.length }}</button>
-        <h2 class="display-4 text-center fw-semibold">See All of Our Product</h2>
-        <div  class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 mt-5">
-            <div v-for="(item, index) in products" :key="index" class="col">
-                <div class="card-product">
-                    <img :src="item.image" alt="">
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        <p class="text-capitalize fs-5">{{ item.name }}</p>
-                        <div class="">
-                            <p class="text-secondary text-decoration-line-through">Rp. {{ item.priceBefore }}</p>
-                            <p class="fw-semibold fs-5">Rp. {{ item.priceDiscount }}</p>
+    <div id="vue">
+        <nav class="nav-wrapper container nav-lg">
+            <a href="index.html" class="title-font logo">swift shoes</a>
+            <ul type="none" class="nav-items">
+                <li class="nav-link title-font">
+                    <a href="home.html">Home</a>
+                </li>
+                <li class="nav-link title-font dropdown active">
+                    <a href="detail.html">Product</a>
+                </li>
+                <li class="nav-link title-font">
+                    <a href="#about">About </a>
+                </li>
+                <li class="nav-link title-font">
+                    <a href="#feature">Feature</a>
+                </li>
+            </ul>
+            <button class="btn btn-nav" data-bs-toggle="modal" data-bs-target="#cartModal" @click="countTotalPrice">Cart {{ cart.length }}</button>
+        </nav>
+        <nav class="nav-sm nav-wrapper container">
+            <a href="index.html" class="title-font logo">swift shoes</a>
+            <div class="nav-sm-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="black" fill-rule="evenodd" d="M3 16h18v2H3zm0-5h18v2H3zm0-5h18v2H3z"/></svg>
+                <ul type="none" class="nav-sm-item">
+                    <li class="nav-link title-font">
+                        <a href="#home">Home</a>
+                    </li>
+                    <li class="nav-link title-font dropdown">
+                        <a href="#product">Product</a>
+                    </li>
+                    <li class="nav-link title-font">
+                        <a href="#about">About </a>
+                    </li>
+                    <li class="nav-link title-font">
+                        <a href="#feature">Feature</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <section class="container mt-5">
+            <h2 class="display-4 text-center fw-semibold">See All of Our Product</h2>
+            <div  class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 mt-5">
+                <div v-for="(item, index) in products" :key="index" class="col">
+                    <button class="card-product bg-white p-0" data-bs-toggle="modal" data-bs-target="#detailModal" @click="seeDetail(index)">
+                        <div class="card-product-header">
+                            <h6 class="logo-product title-font">swift</h6>
+                            <p class="price title-font">{{ item.priceDiscount }}</p>
                         </div>
-                    </div>
-                    <button data-bs-toggle="modal" @click="seeDetail(index)" data-bs-target="#detailModal" class="btn btn-dark w-100 mt-2">Detail</button>
+                        <div class="card-product-img">
+                            <img :src="item.image" alt="product 1" class="w-full img-product flipped-img">
+                        </div>
+                        <div class="card-product-bottom">
+                            <h4 class="title-font title-product">{{ item.name }}</h4>
+                        </div>
+                    </button>
                 </div>
             </div>
-        </div>
-        <div class="modal fade modal-xl" id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row row-cols-lg-2 row-cols-1 ">
-                        <div class="">
-                            <img :src="detail.imgDetail" alt="" class="w-100 img-detail">
-                        </div>
-                        <div class="">
-                                <h2 class="fw-bold text-capitalize">{{ detail.nameDetail }}</h2>
-                                <h5 class="fw-semibold mt-3">Rp. {{ detail.priceDetail }}</h5>
-                                <div class="mt-5 d-flex flex-column gap-4">
-                                    <div for="size">
-                                        <p class="">Choose Size</p>
-                                        <select name="size" id="" v-model="sizeSelected" class="w-100 form-control">
+            <div class="modal fade modal-xl" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body p-5">
+                            <div class="normal-section">
+                                <div class="image-section">
+                                    <img :src="detail.imgDetail" alt="product 1" class="w-full  img-detail">
+                                </div>
+                                <div class="space-section"></div>
+                                <div class="text-section">
+                                    <h1 class="title-font title-product-detail">
+                                        {{detail.nameDetail}}
+                                    </h1>
+                                    <h2 class="price-detail">
+                                        RP. {{detail.priceDetail}}
+                                    </h2>
+                                    <p class="desc desc-detail">
+                                        {{detail.description}}
+                                    </p>
+                                    <div class="feature-wrapper">
+                                        <h3 class="title-font title-feature">Why You Should Buy?</h3>
+                                        <ul class="list-feature-wrapper" type="none">
+                                            <li v-for="item in detail.specsDetail" class="list-feature">{{item}}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="size-wrapper">
+                                        <h3 class="title-font title-feature">Choose your fit?</h3>
+                                        <select name="size" id="selectedSize" v-model="sizeSelected" class="w-100 form-control">
                                             <option value="" class="">Choose Your Size</option>
                                             <option v-for="size in detail.sizeDetail" :value="size">{{ size }}</option>
                                         </select>
-                                    </div>
-                                    <div class="">
-                                        <p class="">Quantity</p>
-                                        <div class="d-flex gap-2 mt-2">
-                                            <button class="btn btn-dark" @click="minusQuantity">-</button>
-                                            <input type="number" v-model="quantity" class="form-control" style="width: fit-content !important;">
-                                            <button class="btn btn-dark" @click="plusQuantity()">+</button>
-                                        </div>
-                                    </div>
-                                    <div class="">
-                                        <p class="">Special Request</p>
-                                        <div class="d-flex gap-2 mt-2">
-                                            <input type="text" v-model="specialRequest" class="form-control ">
-                                        </div>
-                                    </div>
-                                    <div class="">
-                                        <p class="">Packaging</p>
-                                        <div class="d-flex gap-3 mt-2">
-                                            <div class="">
-                                                <input type="radio" name="packaging" v-model="packaging" value="normal">
-                                                <label for="">
-                                                    Normal
-                                                </label>
-                                            </div>
-                                            <div class="">
-                                                <input type="radio" name="packaging" v-model="packaging" value="bubble wrap">
-                                                <label for="">
-                                                    Bubble Wrap
-                                                </label>
-                                            </div>
-                                            <div class="">
-                                                <input type="radio" name="packaging" v-model="packaging" value="kotak kayu">
-                                                <label for="">
-                                                    Kotak Kayu
-                                                </label>
+                                        <div class="special-size-wrapper">
+                                            <h4 class="title-special-size">Quantity</h4>
+                                            <div class="d-flex gap-2 mt-2">
+                                                <button class="btn btn-dark" @click="minusQuantity">-</button>
+                                                <input type="number" v-model="quantity" class="form-control" style="width: fit-content !important;">
+                                                <button class="btn btn-dark" @click="plusQuantity()">+</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d-flex gap-3">
-                                        <button data-bs-toggle="modal" @click="addToCart()" data-bs-target="#cartNotifModal" class="btn btn-dark">Add to Cart</button> 
-                                        <button class="btn btn-dark" @click="buyProductByDetail()">Buy Now</button>
+                                    <div class="package-wrapper">
+                                        <h1 class="title-font title-package">Choose Your Packaging</h1>
+                                        <div class="package-choise-wrapper">
+                                            <label for="package" class="package-choice">
+                                                <input type="radio" name="package" value="normal" v-model="packaging" class="input-radio">
+                                                Normal
+                                            </label>
+                                            <label for="package" class="package-choice">
+                                                <input type="radio" name="package" value="bubble wrap" v-model="packaging" class="input-radio">
+                                                Bubble Wrap
+                                            </label>
+                                            <label for="package" class="package-choice">
+                                                <input type="radio" name="package" value="kotak kayu" v-model="packaging" class="input-radio">
+                                                Wooden Box
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-3 mt-3">
+                                        <button data-bs-toggle="modal" @click="addToCart()" data-bs-target="#cartNotifModal" class="btn btn-dark w-100">Add to Cart</button>
+                                        <button class="btn btn-dark w-100" @click="buyProductByDetail()">Buy Now</button>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="mt-5">
-                        <p class="fs-4 fw-semibold">Description</p>
-                        <p class="mt-2">
-                            {{ detail.description }}
-                        </p>
+                </div>
+            </div>
+            <div class="modal fade modal-xl" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Cart Modal</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="d-flex flex-column gap-4">
+                                <div class="d-flex justify-content-between" v-for="(item, index) in cart" :key="index">
+                                    <div class="d-flex gap-3 align-items-center">
+                                        <img :src="item.image" alt="" style="width: 100px; height: 100px; aspect-ratio: 1/1; object-fit: cover; object-position: center">
+                                        <div class="">
+                                            <p class="title-font fs-3"> {{item.name}} </p>
+                                            <p>Qty : {{item.quantity}}</p>
+                                            <p>{{item.request}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <button class="btn btn-dark" @click="deleteContentOnCart(index)">Delete Cart</button>
+                                        <p>Rp. {{item.price}}</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="d-flex gap-4 mt-5 justify-content-end align-items-center">
+                                {{ totalPrice }}
+                                <button class="btn btn-dark" @click="buyProductByCart()">Buy All</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-              </div>
             </div>
-        </div>
-        <div class="modal fade modal-xl" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                      <div class="" v-for="(item, index) in cart" :key="index">
-                        <p>{{ item.name }}</p>
-                        <p>{{ item.price }}</p>
-                        <p>{{ item.packaging }}</p>
-                        <p>{{ item.size }}</p>
-                        <p>{{ item.quantity }}</p>
-                        <p>{{ item.request }}</p>
-                        <button class="btn btn-dark" @click="deleteContentOnCart(index)">Delete Cart</button>
-                      </div>
-                      {{ totalPrice }}
-                      <button class="btn btn-dark" @click="buyProductByCart()">Buy All</button>
-                  </div>
+            <div class="modal fade" id="cartNotifModal" tabindex="-1" aria-labelledby="cartNotifModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <h3 class="fs-4 text-danger">{{ cartMessage }}</h3>
+                        </div>
+                    </div>
                 </div>
-              </div>
-        </div>
-        <div class="modal fade" id="cartNotifModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <h3 class="display-6 fw-semibold">{{ cartMessage }}</h3>
-                  </div>
+            </div>
+        </section>
+        <footer class="section-margin-top">
+            <div class="footer-header container normal-section">
+                <div class="footer-desc" >
+                    <h6 class="title-font logo">swift Clothes</h6>
+                    <p class="desc" style="max-width: 300px">
+                        {{footer[0].footerDesc.desc}}
+                    </p>
+                    <div class=" socmed-wrapper">
+                        <div class="btn-socmed">
+                            <img :src="footer[0].footerDesc.fb" alt="">
+                        </div>
+                        <div class="btn-socmed">
+                            <img :src="footer[0].footerDesc.wa" alt="">
+                        </div>
+                        <div class="btn-socmed">
+                            <img :src="footer[0].footerDesc.tt" alt="">
+                        </div>
+                    </div>
                 </div>
-              </div>
-        </div>
-    </section>
+                <div class="footer-menu">
+                    <p class="title-footer">{{footer[1].footerMenu[0].title[0]}}</p>
+                    <div class="footer-menu">
+                        <a href="#" class="footer-link" v-for="quickLink in footer[1].footerMenu[0].footerContent[0].quickLink">{{quickLink}}</a>
+                    </div>
+                </div>
+                <div class="footer-menu">
+                    <p class="title-footer">{{footer[1].footerMenu[0].title[1]}}</p>
+                    <div class="footer-menu">
+                        <a href="#" class="footer-link" v-for="categories in footer[1].footerMenu[0].footerContent[0].categories">{{categories}}</a>
+                    </div>
+                </div>
+                <div class="footer-menu">
+                    <p class="title-footer">{{footer[1].footerMenu[0].title[2]}}</p>
+                    <div class="footer-menu">
+                        <a href="#" class="footer-link" v-for="guide in footer[1].footerMenu[0].footerContent[0].guide">{{guide}}</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="footer-btm section-margin-top text-center section">
+                <hr class="line-footer">
+                <p class="copyright">{{footer[2].copyright}}</p>
+            </div>
+        </footer>
+    </div>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
